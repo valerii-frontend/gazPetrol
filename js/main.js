@@ -73,7 +73,7 @@ window.onresize = function () {
 
 const menuSub = document.querySelectorAll(".header__menu > li > a + .header__submenu");
 navMainLinks.forEach((link) => {
-	link.addEventListener("click", function (e) {
+	link.addEventListener("mouseover", function (e) {
 		e.preventDefault();
 		menuSub.forEach((subList) => {
 			subList.classList.add("_hide");
@@ -97,19 +97,19 @@ navMainLinks.forEach((link) => {
 
 // #VIDEO
 
-let videoButton = document.querySelector(".about__play");
+let videoButton = document.querySelector(".player__play");
 if (videoButton) {
-	let videoMainScreen = document.querySelector(".about__player");
-	let videoPopupBody = document.querySelector(".popup-about");
-	let popupPlayer = document.querySelector(".popup-about__player");
-	let videoPopupContent = document.querySelector(".popup-about__video");
+	let videoMainScreen = document.querySelector(".player");
+	let videoPopupBody = document.querySelector(".popup");
+	let popupPlayer = document.querySelector(".popup__player");
+	let videoPopupContent = document.querySelector(".popup__video");
 	videoButton.addEventListener("click", function (e) {
 		videoPopupBody.classList.add("_active");
 		videoPopupContent.play();
 		videoPopupContent.setAttribute("controls", "true");
 		videoPopupContent.setAttribute("allowFullScreen", "false");
 	});
-	let closePopup = document.querySelector(".popup-about__close");
+	let closePopup = document.querySelector(".popup__close");
 	if (videoPopupBody) {
 		videoPopupBody.addEventListener("click", function (e) {
 			if (e.target !== videoPopupContent) {
@@ -119,3 +119,25 @@ if (videoButton) {
 		});
 	}
 }
+
+// #SPOILER ADVISERS
+const adviserSpoilers = document.querySelectorAll(".adviser__title");
+const adviserContents = document.querySelectorAll(".adviser__title + .adviser__row");
+const adviserlistHeights = [...adviserContents].map((el) => el.offsetHeight);
+
+function adviserSpoilersFunc() {
+	adviserSpoilers.forEach((spoiler, i) => {
+		adviserContents[i].style.cssText = `overflow:hidden;height:0px;transition:0.3s;`;
+		spoiler.addEventListener("click", function (e) {
+			if (spoiler.classList.contains("adviser__title_active")) {
+				adviserContents[i].style.cssText = `overflow:hidden;height:0px;transition:0.3s;`;
+				spoiler.classList.remove("adviser__title_active");
+			} else {
+				adviserContents[i].style.cssText = `overflow:hidden;height:${adviserlistHeights[i]}px;transition:0.3s;`;
+				spoiler.classList.add("adviser__title_active");
+			}
+		});
+	});
+}
+adviserSpoilersFunc();
+console.log(adviserContents[1].offsetHeight);
